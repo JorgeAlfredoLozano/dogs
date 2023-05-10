@@ -1,0 +1,45 @@
+.card {
+  background-color: #fff;
+  background-image: url('../assets/fondo_card.png');
+  border-radius: 18px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 230px;
+  height: 390px;
+  margin: 20px;
+  position: relative; /* posicionamos el contenedor */
+}
+
+.card-img {
+  width: 250px;
+  height: 200px;
+  object-fit: cover;
+  object-position: top; /* mueve la imagen 30px hacia arriba */
+}
+
+
+.card-content {
+  position: absolute; /* posicionamos el contenedor en la esquina superior */
+  top: 0;
+  left: 0;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7); /* agregamos un fondo semitransparente */
+  color: #fff; /* cambiamos el color del texto a blanco */
+  width: 100%;
+  box-sizing: border-box; /* incluimos el padding y border en el ancho */
+}
+
+.card-title {
+  font-size: 16px;
+  background-color: black;
+  color: white;
+  border-radius: 10px 10px 0px 0px;
+  padding: 10px;
+  margin: 0;
+  white-space: nowrap; /* no permitir saltos de línea */
+  overflow: hidden; /* recortar el texto que desborde */
+  text-overflow: ellipsis; /* agregar puntos suspensivos para indicar que se recortó el texto */
+  max-width: 100%; /* limitar el ancho máximo del título */
+}
+
+
