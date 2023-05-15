@@ -1,6 +1,6 @@
 .card {
   background-color: #fff;
-  background-image: url('../assets/fondo_card.png');
+  background-image: url('../../assets/fondo_card.png');
   border-radius: 18px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;

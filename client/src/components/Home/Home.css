@@ -2,7 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center; /* centrar horizontalmente */
-    background-image: url('../assets/fondo_1366x768.jpg'); /* agregar fondo */
+    background-image: url('../../assets/fondo_1366x768.jpg'); /* agregar fondo */
     background-size: cover; /* adaptar la imagen al contenido */
 }
 

@@ -29,6 +29,7 @@ router.get('/dogs/name', async (req,res) => {
 })
 router.post('/dogs', async (req,res) => {
     try {
+    
         const {
             name,
             image,
@@ -37,7 +38,7 @@ router.post('/dogs', async (req,res) => {
             life_span,
             temperament
         } = req.body;
-     
+
         if (!name || !image || !height || !weight || !life_span || !temperament) throw Error( {"message": 'Fields cannot be empty'})
         const arrTemp = temperament.split(', ')
        
@@ -49,6 +50,7 @@ router.post('/dogs', async (req,res) => {
             life_span,
             arrTemp,
         });
+       
         res.status(STATUS_OK).json(newDog)  
     } catch (error) {
         return res.status(STATUS_ERROR_SV).json({ error: error.message })
