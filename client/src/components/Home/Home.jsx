@@ -1,31 +1,42 @@
+/*************************************/
+/*****       IMPORTACIONES       *****/
+/*************************************/
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDogs, filterDogs, orderDogs } from '../../redux/actions';
-import { Link } from 'react-router-dom';
+import { getDogs, filterDogs, filterTemp, orderDogs, searchDogs } from '../../redux/actions';
 import Card from '../Card/Card';
 import Paginado from '../Paginado/Paginado';
-import "../Home/Home.css";
+import Nav from '../Nav/Nav';
+import Footer from '../Footer/Footer';
+import styles from './Home.module.css';
 import axios from 'axios';
+import fondo_home from '../../assets/fondo_home.gif';
+// import { useHistory } from 'react-router-dom';
+
 
 export default function Home() {
-  const dispatch = useDispatch();
-  const allDogs = useSelector((state) => state.dogs);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [dogsPerPage, setDogsPerPage] = useState(8);
-  const indexLastDog = currentPage * dogsPerPage;
-  const indexOfFirstDog = indexLastDog - dogsPerPage;
-  const [selectedOrigin, setSelectedOrigin] = useState("all");
-  const [selectedTemperament, setSelectedTemperament] = useState("");
-  const [sortedDogs, setSortedDogs] = useState(null); // Nuevo estado para perros ordenados
+  const dispatch = useDispatch();  // defino el Dispatch  para despachar acciones al store de Redux y actualizar el estado global
+  const [currentPage, setCurrentPage] = useState(1); // (PAGINADO) estado currentPage para la página actual  
+  // const [dogsPerPage, setDogsPerPage] = useState(8); // (PAGINADO) estado dogsPerPage para la cant. de perros x pagina 
+  const indexLastDog = currentPage * 8; // (PAGINADO) indice último perro, para saber el rango de perros que se muestran x página.
+  const indexOfFirstDog = indexLastDog - 8; // (PAGINADO) indice primer perro, para saber el rango de perros que se muestran x página.
+  const [selectedOrigin, setSelectedOrigin] = useState("all"); // Estado para almacenar la opción elegida "all" "API" o "BD"
+  const [temperaments, setTemperaments] = useState([]); // Estado para guardar los temperamentos para el select
+  const filteredDogs = useSelector((state) => state.filteredDogs); // Accede a los perros filtrados desde el estado de Redux
+  // const history = useHistory();
 
-  const [temperaments, setTemperaments] = useState([]);
 
-  ////// TRAIGO LOS TEMPERAMENTOS AL ESTADO temperaments\\\\\\
+
+  /*************************************/
+  /***** CARGO ESTADO TEMPERAMENTS *****/
+  /*************************************/
+ 
   useEffect(() => {
     const getTemperaments = async () => {
       try {
         const response = await axios.get("http://localhost:3001/temperaments");
-        setTemperaments(response.data);
+        const sortedTemperaments = response.data.sort((a, b) => a.name.localeCompare(b.name));
+        setTemperaments(sortedTemperaments);
       } catch (error) {
         console.log(error);
       }
@@ -33,140 +44,131 @@ export default function Home() {
     getTemperaments();
   }, []);
 
-  const filteredDogs = sortedDogs || allDogs.filter((dog) => {
-    if (selectedOrigin === "all") {
-      return true;
-    } else if (selectedOrigin === "api") {
-      return !dog.createdInDb;
-    } else {
-      return dog.createdInDb;
-    }
-  });
+  /*************************************/
+  /*****   ESTABLEZCO NRO PAGINA   *****/
+  /*************************************/
 
-  const currentDogs = filteredDogs
-  .filter((dog) => {
-    if (selectedOrigin === "all") {
-
-      return true;
-    } else if (selectedOrigin === "api") {
-
-      return !dog.createdInDb;
-    } else {
-
-      return dog.createdInDb;
-    }
-  })
-  .filter((dog) => {
-    if (!selectedTemperament) {
-      console.log(dog.name,dog.temperament,dog.temperaments,"nombre en temperamento")
-      return true;
-    } else {
-      return dog.temperament?.includes(selectedTemperament);
-    }
-  })
-  .slice(indexOfFirstDog, indexLastDog);
-
-  
   const paginado = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
+  /*************************************/
+  /* TRAIGO LOS PERROS (actions/redux) */
+  /*************************************/
   useEffect(() => {
     dispatch(getDogs());
   }, [dispatch]);
 
-
-  ///////////  R E F R E S H \\\\\\\\\
-
-  const handleClick = () => {
-    dispatch(getDogs());
+  /*************************************/
+  /*****     BUSCO POR NOMBRE      *****/
+  /*************************************/
+  const handleSearch = (name) => {
+    dispatch(searchDogs(name));
     setCurrentPage(1);
-    setSelectedOrigin("all");
-    setSelectedTemperament("");
-    setSortedDogs(null); // Restablece perros ordenados
+  }
+
+  /*************************************/
+  /***   RESET FILTROS (reset/NAV)    **/
+  /*************************************/
+  const handleClick = () => {
+    window.location.reload() //refresh
   };
 
+  /*************************************/
+  /**** ORDENAMIENTO (actions/redux) ***/
+  /*************************************/
   
-  ///////// O R D E N A M I E N T O /////////////
-  const handleOrder = (event) => {       
+  const handleOrder = (event) => {   
+       
     const orderType = event.target.value;
-    let sortedDogs = [...filteredDogs]; // Se filtran los perros según el origen seleccionado
-  
-    if (orderType === "asc") {
-        sortedDogs.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (orderType === "desc") {
-        sortedDogs.sort((a, b) => b.name.localeCompare(a.name));
-    }
-  
-    setSortedDogs(sortedDogs); // Actualiza perros ordenados
     dispatch(orderDogs(orderType));
   };
 
-//////// F I L T R O x A P I / DB \\\\\\\\\\\\\
+  /*************************************/
+  /**** FILTRO x API (actions/redux) ***/
+  /*************************************/
 
-const handleFilterChange = (event) => {
-  const origin = event.target.value;
-  setSelectedOrigin(origin);
-  setCurrentPage(1);
-  setSelectedTemperament("");
-  dispatch(filterDogs(origin, 1));
-  setSortedDogs(null); // Restablece perros ordenados
-};
+  const handleFilterChange = (event) => {
+    const origin = event.target.value;
+    setSelectedOrigin(origin);
+    setCurrentPage(1);
+    dispatch(filterDogs(origin, 1));
+  };
 
+  /*********************************************/
+  /** FILTRO x TEMPERAMENTOS (actions/redux)  **/
+  /*********************************************/
 
-///////// R E N D E R I Z A D O \\\\\\\\\\\\\\\
+  const handlerFilterTemp = (event) => {
+    const temp = event.target.value;
+    setCurrentPage(1);
+    dispatch(filterTemp(temp,1))
+  }  
 
-return (
-    <div>
-      <Link to="/dog">New Dog</Link>
-      <button onClick={handleClick}>Refresh</button>
-      <div>
-        
-        <select onChange={handleOrder} value="order">
-          <option value="order">Order</option>
-          <option value="asc">Ascending</option>
-          <option value="desc">Descending</option>
-        </select>
+  /*************************************/
+  /*****    R EN D E R I Z A D O   *****/
+  /*************************************/
+ 
+  return (
+    
+    <div style={{
+      backgroundImage: `url(${fondo_home})`,
+      backgroundSize: '90%',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      backgroundColor: 'black',
+    }}
+    className={styles.container}>
+      
+      {/*************************************/}
+      {/**  RENDERIZO EL NAV(propiedades)  **/}
+      {/*************************************/}
+      <Nav
+        onSearch={handleSearch}
+        handleClick={handleClick}
+        handleOrder={handleOrder}
+        handlerFilterTemp={handlerFilterTemp}
+        handleFilterChange={handleFilterChange}
+        selectedOrigin={selectedOrigin}
+        temperaments={temperaments}
+      />
 
-        <select>
-          <option value="">Temperaments</option>
-          {temperaments &&
-            temperaments.map((temperament) => (
-              <option key={temperament.id} value={temperament.name}>
-                {temperament.name}
-              </option>
-            ))}
-        </select>
-
-        <select value={selectedOrigin} onChange={handleFilterChange}>
-          <option value="all">ALL</option>
-          <option value="api">API</option>
-          <option value="db">DB</option>
-        </select>
-
+      {/***************************************/}
+      {/* RENDERIZO EL PAGINADO (propiedades) */}
+      {/***************************************/}
+      
+      <div className={styles.paginadoContainer}>
         <Paginado
-          dogsPerPage={dogsPerPage}
+          dogsPerPage={8}
           allDogs={filteredDogs.length}
           paginado={paginado}
           currentPage={currentPage}
         />
-
-        <div className="card-container">
-          {currentDogs &&
-            currentDogs.map((dog) => {
+      </div>
+      
+      {/***************************************/}
+      {/*** RENDERIZO LA CARD DE CADA PERRO ***/}
+      {/***************************************/}
+      <div className={styles.cardContainer}>
+        {filteredDogs &&
+          filteredDogs
+            .slice(indexOfFirstDog, indexLastDog)
+            .map((dog) => {
               return (
                 <Card
                   key={dog.id}
-                  id={dog.id}
                   name={dog.name}
                   image={dog.image}
-                  temperament={dog.createdInDb ? dog.temperaments : dog.temperament}
+                  temperament={dog.temperament ? dog.temperament : (dog.temperaments && Array.isArray(dog.temperaments) ? dog.temperaments.map(temp => temp.name).join(', ') : dog.temperaments)}
+                  id={dog.id}
                   weight={dog.weight}
                 />
               );
             })}
-        </div>
       </div>
+      <Footer 
+      />
     </div>
+    
   );
 }

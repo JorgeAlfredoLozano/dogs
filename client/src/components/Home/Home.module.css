@@ -1,0 +1,21 @@
+.container {
+    /* background-image: url('../../assets/fondo_land.gif');
+    background-size: cover; */
+    padding-bottom: 20px; /* Agrega un espacio inferior entre los contenedores */
+    
+  }
+  
+  .cardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: -20px; /* Ajusta el espacio superior */
+  }
+  
+  .paginadoContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: -5px;
+  }
+  
+  

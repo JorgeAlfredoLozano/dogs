@@ -1,0 +1,37 @@
+.footer {
+    padding: 5px;
+    background-color: rgb(170, 138, 76);
+
+  }
+  
+  .line {
+    margin: 10px 0;
+    margin-left: 70px;
+    width: 250px;
+    border: none;
+    height: 1px;
+    background-color: #ffffff;
+  }
+  
+  .footerColumns {
+    display: flex;
+    color: white;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+  }
+  
+  .footerColumn {
+    flex: 1;
+    margin-right: 20px;
+    
+  }
+  
+  .footerColumn h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    
+  }
+  
+  .footerColumn p {
+    margin: 5px 0;
+  }
+  

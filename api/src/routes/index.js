@@ -20,6 +20,7 @@ const router = Router();
 // Ejemplo: router.use('/auth', authRouter);
 router.get('/dogs/name', async (req,res) => {
     const { name } = req.query
+    console.log(name, "entroooooooooooo")
     try {
         const breedsTotal = await findBreedByName(name.toLowerCase())
         res.status(STATUS_OK).json(breedsTotal);
@@ -27,9 +28,9 @@ router.get('/dogs/name', async (req,res) => {
         res.status(STATUS_ERROR_SV).json({ error: error.message });
     }
 })
+
 router.post('/dogs', async (req,res) => {
     try {
-    
         const {
             name,
             image,
@@ -56,6 +57,7 @@ router.post('/dogs', async (req,res) => {
         return res.status(STATUS_ERROR_SV).json({ error: error.message })
     }
 });
+
 router.get('/dogs', async (req,res) => {
     // const name = req.query.name;
 

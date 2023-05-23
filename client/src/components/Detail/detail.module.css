@@ -3,13 +3,17 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-  }
+
+   }
   
   .card {
-    width: 60%;
-    height: auto;
+    background-image: url('../../assets/fondo_card_detail.png');
+    background-color: rgb(170, 138, 76);
+    background-size: 75%;
+    width: 40%;
+    height: 80%;
     max-width: 80%;
-    background-color: #fff;
+    
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   }
@@ -25,6 +29,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    
   }
   
   .card-body {
@@ -32,11 +37,16 @@
   }
   
   .cardImg {
-    width: 40%;
-    height: Auto;
+    width: 250px;
+    height: 150px;
     object-fit: cover;
+    object-position: center top;
+    cursor: pointer;
   }
-  
+  .expanded {
+    width: 50%; /* Ajusta el valor según tus necesidades */
+    height: 50%; /* Ajusta el valor según tus necesidades */
+  }
   .card-info {
     min-width: 30%;
     max-width: 90%;
@@ -46,6 +56,7 @@
     font-size: 1rem;
     line-height: 1.5;
     max-width: 100%;
+    font-style: italic; 
   }
   
   
@@ -53,6 +64,28 @@
     margin: 0;
   }
   .closeButton {
-    background-color: rgba(71, 139, 185, 0.7);
+    color: rgb(255, 255, 255);
+    background-color: rgb(170, 138, 76);
+    text-decoration: none;
+    
+    
   }
   
+  .loadingImage {
+    width: 50px; 
+    height: 50px; 
+  }
+  
+  .boldText {
+    font-weight: bold;
+  }
+  .gifContainer {
+    position: relative;
+  }
+  
+  .gif {
+    position: absolute;
+    top: 200px;
+    left: 50px;
+    width: 18%;
+  }

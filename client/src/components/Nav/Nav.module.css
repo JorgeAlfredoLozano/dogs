@@ -1,0 +1,44 @@
+.navContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(170, 138, 76);
+  overflow-x: hidden;
+}
+
+@keyframes moveHorizontal {
+  0% {
+    transform: translateX(-300%);
+  }
+  100% {
+    transform: translateX(1450%);
+  }
+
+}
+
+.moving-image {
+  animation: moveHorizontal 28s infinite;
+  width: 8%;
+}
+
+.buttonLink {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #f1f1f1;
+  color: #333;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  height: 5px;
+  text-align: center; /* Centra el texto horizontalmente */
+  font-family: "Arial", sans-serif;
+  font-size: 14px;
+  line-height: 4px;
+}
+
+.buttonLink:hover {
+  background-color: #000000;
+  color: rgb(170, 138, 76);
+}
+
