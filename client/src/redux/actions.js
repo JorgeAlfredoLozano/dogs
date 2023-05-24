@@ -1,7 +1,7 @@
 /*************************************/
 /*****       IMPORTACIONES       *****/
 /*************************************/
-import axios from 'axios';
+import axios from 'axios'; //GET, POST
 import { GET_DOGS, FILTER, FILTER_TEMP, ORDER, RESET_FILTERS,SEARCH_DOGS } from './types';
 
 /*************************************/

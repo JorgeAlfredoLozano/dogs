@@ -1,14 +1,16 @@
+/*************************************/
+/*****       IMPORTACIONES       *****/
+/*************************************/
 import React from 'react';
 import { Link } from 'react-router-dom';
 import fondo_land from '../../assets/fondo_land.gif';
 import gifperro from '../../assets/perro-animado.gif';
 
 export default function LandingPage() {
-  
 
   return (
     <div>
-      <Link to="/home">
+      <Link to="/home" title="Click anywhere to enter">
         <div
           style={{
             backgroundImage: `url(${fondo_land})`,
@@ -23,13 +25,21 @@ export default function LandingPage() {
             cursor: 'pointer',
           }}
         >
-          <img style={{
-            marginLeft: '-370px',
-            marginTop: '125px',
-            width: '15%',
-            }} src={gifperro} alt="Gif Animado" loop />
+          <img
+            style={{
+              marginLeft: '-370px',
+              marginTop: '125px',
+              width: '15%',
+            }}
+            src={gifperro}
+            alt="Gif Animado"
+            loop
+          />
         </div>
       </Link>
     </div>
   );
 }
+
+
+

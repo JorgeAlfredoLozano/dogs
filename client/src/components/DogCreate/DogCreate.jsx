@@ -128,6 +128,7 @@ const FormNewDog = () => {
     /*******   MANEJO DEL BOTON +   ******/
     /*************************************/  
     const handleAddTemperament = () => {
+        
     if (newTemperament.trim() !== "" && !selectedTemperaments.includes(newTemperament)) {
         setSelectedTemperaments([...selectedTemperaments, newTemperament]);
     
@@ -139,81 +140,74 @@ const FormNewDog = () => {
         }));
     
         setNewTemperament(""); //borro el contenido del input
+        
     }
+    
     };
 
     /*************************************/
     /******* ENVIAR LA INFO A LA BD ******/
     /*************************************/
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
         const errors = validate(newDog); //tenia error sin s ojo????
-        if (dogs.some(dog => dog.name.toLowerCase().trim() === newDog.name.toLowerCase().trim())) {
+        if (dogs.some((dog) => dog.name.toLowerCase().trim() === newDog.name.toLowerCase().trim())) {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      message: "Error: Dog exists!",
+    }));
+    return; // Evitar la ejecución del resto del código
+  }
+
+  if (errors.ok) {
+        //Aseguro el formato JSON para que se guarde en la BD
+        const formattedDog = {
+        name: newDog.name,
+        image: newDog.image || null,
+        height: {
+            imperial: newDog.height.imperial,
+            metric: newDog.height.metric
+        },
+        weight: {
+            imperial: newDog.weight.imperial,
+            metric: newDog.weight.metric
+        },
+        life_span: newDog.life_span,
+        temperament: newDog.temperaments
+        };
+
+        axios.post('http://localhost:3001/dogs', formattedDog)
+        .then((response) => {
+
             setErrors(prevErrors => ({
-              ...prevErrors,
-              
-              message: "Error: Dog exists!"
+                ...prevErrors,
+                ok: false,
+                message: "The race was saved correctly"
+                }));
+            setTimeout(() => {
+                history.push("/home");
+                }, 1500);
+            
+            
+        })
+        .catch((error) => {
+            
+            setErrors(prevErrors => ({
+            ...prevErrors,
+            message: "Error: NOT saved correctly"
             }));
-            
-            
-          } else {
-            if (errors.ok) {
-                //Aseguro el formato JSON para que se guarde en la BD
-                const formattedDog = {
-                name: newDog.name,
-                image: newDog.image || null,
-                height: {
-                  imperial: newDog.height.imperial,
-                  metric: newDog.height.metric
-                },
-                weight: {
-                  imperial: newDog.weight.imperial,
-                  metric: newDog.weight.metric
-                },
-                life_span: newDog.life_span,
-                temperament: newDog.temperaments
-              };
-    
-                axios.post('http://localhost:3001/dogs', formattedDog)
-                .then((response) => {
-    
-                    setErrors(prevErrors => ({
-                        ...prevErrors,
-                        ok: false,
-                        message: "The race was saved correctly"
-                      }));
-                    setTimeout(() => {
-                        history.push("/home");
-                      }, 1500);
-                   
-                  
-                })
-                .catch((error) => {
-                  
-                  setErrors(prevErrors => ({
-                    ...prevErrors,
-                    message: "Error: NOT saved correctly"
-                  }));
-    
-                });
-            }
-          }
-        
 
+        });
+    }
+};
 
-        
-      };
-    
-      
-
-    const handleCancel = (event) => {
+      const handleCancel = (event) => {
         return history.push("/home");
     }
 
     const ImageUrlChange = (e) => {
         setNewDog({ ...newDog, image: e.target.value });
     };
-
 
     return (
         
@@ -478,7 +472,7 @@ const FormNewDog = () => {
                     <div style={{ display: "inline-flex", alignItems: "center", marginLeft: "-99px" }}>
                         <label style={{ marginRight: "5px" }}></label>
                         <input placeholder="add new temperament" type="text" style={{ width: "140px", marginRight: "5px" }} value={newTemperament} onChange={handleInputChange} />
-                        <button onClick={handleAddTemperament}>+</button>
+                        <button type="button" onClick={handleAddTemperament}>+</button>
                     </div>
                     <div>
                         <textarea

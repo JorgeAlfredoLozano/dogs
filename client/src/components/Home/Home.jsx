@@ -11,26 +11,25 @@ import Footer from '../Footer/Footer';
 import styles from './Home.module.css';
 import axios from 'axios';
 import fondo_home from '../../assets/fondo_home.gif';
-// import { useHistory } from 'react-router-dom';
+
 
 
 export default function Home() {
-  const dispatch = useDispatch();  // defino el Dispatch  para despachar acciones al store de Redux y actualizar el estado global
+  const dispatch = useDispatch();  
+  
   const [currentPage, setCurrentPage] = useState(1); // (PAGINADO) estado currentPage para la página actual  
-  // const [dogsPerPage, setDogsPerPage] = useState(8); // (PAGINADO) estado dogsPerPage para la cant. de perros x pagina 
   const indexLastDog = currentPage * 8; // (PAGINADO) indice último perro, para saber el rango de perros que se muestran x página.
   const indexOfFirstDog = indexLastDog - 8; // (PAGINADO) indice primer perro, para saber el rango de perros que se muestran x página.
+  
   const [selectedOrigin, setSelectedOrigin] = useState("all"); // Estado para almacenar la opción elegida "all" "API" o "BD"
+  
   const [temperaments, setTemperaments] = useState([]); // Estado para guardar los temperamentos para el select
-  const filteredDogs = useSelector((state) => state.filteredDogs); // Accede a los perros filtrados desde el estado de Redux
-  // const history = useHistory();
-
-
+  
+  const filteredDogs = useSelector((state) => state.filteredDogs); // AccedO a los perros filtrados desde el estado de Redux
 
   /*************************************/
   /***** CARGO ESTADO TEMPERAMENTS *****/
   /*************************************/
- 
   useEffect(() => {
     const getTemperaments = async () => {
       try {
@@ -47,7 +46,6 @@ export default function Home() {
   /*************************************/
   /*****   ESTABLEZCO NRO PAGINA   *****/
   /*************************************/
-
   const paginado = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -77,7 +75,6 @@ export default function Home() {
   /*************************************/
   /**** ORDENAMIENTO (actions/redux) ***/
   /*************************************/
-  
   const handleOrder = (event) => {   
        
     const orderType = event.target.value;
@@ -87,7 +84,6 @@ export default function Home() {
   /*************************************/
   /**** FILTRO x API (actions/redux) ***/
   /*************************************/
-
   const handleFilterChange = (event) => {
     const origin = event.target.value;
     setSelectedOrigin(origin);
@@ -98,7 +94,6 @@ export default function Home() {
   /*********************************************/
   /** FILTRO x TEMPERAMENTOS (actions/redux)  **/
   /*********************************************/
-
   const handlerFilterTemp = (event) => {
     const temp = event.target.value;
     setCurrentPage(1);
@@ -108,7 +103,6 @@ export default function Home() {
   /*************************************/
   /*****    R EN D E R I Z A D O   *****/
   /*************************************/
- 
   return (
     
     <div style={{
@@ -136,7 +130,6 @@ export default function Home() {
       {/***************************************/}
       {/* RENDERIZO EL PAGINADO (propiedades) */}
       {/***************************************/}
-      
       <div className={styles.paginadoContainer}>
         <Paginado
           dogsPerPage={8}

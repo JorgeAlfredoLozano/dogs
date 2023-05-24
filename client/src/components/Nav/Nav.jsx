@@ -22,7 +22,7 @@ const Nav = ({
 }) => {
   return (
     
-    <div className={styles.navContainer}> {/* Aplica la clase de contenedor */}
+    <div className={styles.navContainer}> 
       
       <img
         className={styles['moving-image']}
@@ -36,13 +36,12 @@ const Nav = ({
       {/*************************************/}
       
       <NavLink to="/dog" className={styles.buttonLink} activeClassName={styles.active}>
-      New Dog
-    </NavLink>
+        New Dog
+      </NavLink>
       
       {/*************************************/}
       {/**     RENDERIZO LA SearchBar      **/}
       {/*************************************/}
-      
       <SearchBar onSearch={onSearch} />
       
       <div style={{ 
@@ -53,14 +52,18 @@ const Nav = ({
         borderRadius: "6px",
         lineHeight: "28px",
         }}>
+          
+        {/* BOTON RESET */}
         <button onClick={handleClick} style={{marginRight: "5px", height:"25px"}} className={styles.buttonLink} >Reset</button>
-        {/* <NavLink to="/home" style={{marginRight: "5px", height: "25px"}} className={styles.buttonLink} activeClassName={styles.active}>Reset</NavLink> */}
+        
+        {/* SELECT  DE ORDENAMIENTO */}
         <select style={{ marginRight: "5px", height: "25px", borderRadius: "6px", textAlign: "center" }} onChange={handleOrder} value="order">
           <option value="order">Order</option>
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
         </select>
 
+        {/* SELECT DE FILTROS X TEMPERAMENTOS */}
         <select style={{ marginRight: "5px", height: "25px", borderRadius: "6px", textAlign: "center" }} onChange={handlerFilterTemp}>
           <option value="">Temperaments</option>
           {temperaments &&
@@ -71,6 +74,7 @@ const Nav = ({
             ))}
         </select>
 
+        {/* SELECT DE FILTROS API|DB|ALL  */}
         <select style={{ marginRight: "5px", height: "25px", borderRadius: "6px", textAlign: "center" }} value={selectedOrigin} onChange={handleFilterChange}>
           <option value="all">ALL</option>
           <option value="api">API</option>

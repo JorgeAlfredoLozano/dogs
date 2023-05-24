@@ -1,3 +1,6 @@
+/*************************************/
+/*****       IMPORTACIONES       *****/
+/*************************************/
 import styles from './Footer.module.css';
 import { Link } from 'react-router-dom';
 
@@ -22,7 +25,7 @@ function Footer() {
         <div className={styles.footerColumn}>
           <h3>&lt;Social Media /&gt;</h3>
           <hr className={styles.line} />
-          <p>Linkdin</p>
+          <p>Linkdn</p>
           <p>Facebook</p>
         </div>
       </div>

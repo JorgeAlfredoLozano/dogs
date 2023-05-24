@@ -1,20 +1,23 @@
+/*************************************/
+/*****       IMPORTACIONES       *****/
+/*************************************/
 import React, { useState } from "react";
 import styles from './SearchBar.module.css'; 
 
 const SearchBar = ({ onSearch }) => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState(""); //para controlar el input de busqueda
 
   const handleChange = (event) => {
     setName(event.target.value);
   };
 
   const handleSearch = () => {
-    onSearch(name);
+    onSearch(name); //voy a buscar el Nombre
     setName("");
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter") { //habilito el enter para el boton search
       handleSearch();
     }
   };

@@ -17,6 +17,9 @@ const Detail = () => {
   const [error, setError] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
+/*************************************/
+/*****   BUSCO PERRO POR ID      *****/
+/*************************************/
   useEffect(() => {
     axios
       .get(`http://localhost:3001/dogs/${id}`)
@@ -35,14 +38,15 @@ const Detail = () => {
       });
   }, [id]);
 
-  if (error) {
-    return <p>No hay perros con ese ID</p>;
-  }
+  // if (error) {
+  //   return <p>No hay perros con ese ID</p>;
+  // }
+  
   const handleImageClick = () => {
     setIsExpanded(!isExpanded);
   };
 
- 
+  // SETEO LA IMAGEN SEGUN SU TIPO
   const dogImage =
   typeof dog.image === 'object'
     ? dog.image

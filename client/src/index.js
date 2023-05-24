@@ -1,21 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
-import { store } from './redux/store';
+/*************************************/
+/*****       IMPORTACIONES       *****/
+/*************************************/
+import React from 'react'; // React para crear componentes.
+import ReactDOM from 'react-dom'; // ReactDOM para renderizar componentes en el DOM.
+import './index.css'; 
+import App from './App'; 
+import { Provider } from 'react-redux'; // Provider para acceder al store de Redux.
+import { store } from './redux/store'; // store de Redux
 
-ReactDOM.render(
-  <Provider store={store}>
-    <React.StrictMode>
-      <App />
+ReactDOM.render( 
+  <Provider store={store}> {/* paso el store de Redux como prop. */}
+    <React.StrictMode> 
+      <App /> 
     </React.StrictMode>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root') 
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
+
